@@ -1,4 +1,6 @@
 HangboardApp
 ============
 
-Hangboarding webapp to help you send. 
+Hangboarding webapp to help you send.
+
+Blah Blah Blar.
