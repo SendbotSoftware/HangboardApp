@@ -1,8 +1,4 @@
 HangboardApp
 ============
 
-Hangboarding webapp to help you send.
-
-Blah Blah Blar.
-
-Test.
+Hangboarding webapp to help you send all those super hard projects.
