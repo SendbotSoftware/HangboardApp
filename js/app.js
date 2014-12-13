@@ -6,6 +6,7 @@ define([
 ], function($, handlebars, Backbone, Router){
     var initialize = function(){
         console.log('app initialized');
+         Router.initialize();
     };
 
   return {

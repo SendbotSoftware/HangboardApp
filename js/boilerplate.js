@@ -1,7 +1,7 @@
 define([
-  'jQuery',
+  'jquery',
   'handlebars',
-  'Backbone'
+  'backbone'
 ], function($, handlebars, Backbone){
 
   return {};
