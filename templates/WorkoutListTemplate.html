@@ -1,32 +1,59 @@
-<a href="#/new" class="btn btn-primary">New</a>
-<hr />
-<table class="table striped">
-    <thead>
-    <tr>
-        <th>Workout Number</th>
-        <th>Date</th>
-        <th>Reps</th>
 
-        <!--TODO @rbalakrishnan consider making this a dynamic number of th depending on how many grips user has-->
-        <th>Grip 1 weight</th>
-        <th>Completed Sets</th>
-        <th>Grip 2 weight</th>
-        <th>Completed Sets</th>
-        <th>Grip 3 weight</th>
-        <th>Completed Sets</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each workouts}}
+    <a href="#/new" class="btn btn-primary">New</a>
+    <hr />
+    <table class="table striped">
+        <thead>
         <tr>
-            <td>{{@index}}</td>
+            <th>Workout Number</th>
+            <th>Date</th>
+            <th>Reps</th>
+            <th>Type</th>
+            <th>RPE</th>
+            <th>Bodyweight</th>
+
+           <!--iterate over grips here-->
+            <th>{{workouts.0.grips.0.name}} Est. 1RM</th>
+            <th>{{workouts.grips.0.name}} weight</th>
+            <th>{{workouts.grips.0.name}}  Sets</th>
+            <th>{{workouts.grips.1.name}} 2 Est. 1RM</th>
+            <th>{{workouts.grips.1.name}} 2 weight</th>
+            <th>{{workouts.grips.1.name}} Sets</th>
+            <th>{{workouts.grips.2.name}} 3 Est. 1RM</th>
+            <th>{{workouts.grips.2.name}} 3 weight</th>
+            <th>{{workouts.grips.2.name}} Sets</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {{#each workouts}}
+
+
+        <tr>
+            <td>{{this.index}}</td>
             <td>{{this.date}}</td>
-            <td>{{this.reps}}</td>
+            <td>{{this.repetitions}}</td>
+            <td>{{this.type}}</td>
+            <td>{{this.RPE}}</td>
+            <td>{{this.weight}}</td>
+
+            <!--iterate over grips here-->
+            <td>{{this.grips.0.1RM}}</td>
+            <td>{{this.grips.0.resistance}}</td>
+            <td>{{this.grips.0.sets}}</td>
+            <td>{{this.grips.1.1RM}}</td>
+            <td>{{this.grips.1.resistance}}</td>
+            <td>{{this.grips.1.sets}}</td>
+            <td>{{this.grips.2.1RM}}</td>
+            <td>{{this.grips.2.resistance}}</td>
+            <td>{{this.grips.2.sets}}</td>
 
             <!--TODO @rbalakrishnan Consider making new model for each grip?-->
             <td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>
         </tr>
-    {{/each}}
+        {{/each}}
 
-    </tbody>
-</table>
+
+        </tbody>
+    </table>
+  

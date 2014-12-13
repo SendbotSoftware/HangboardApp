@@ -14,12 +14,11 @@ define([
     }
   });
 var initialize = function(){
-     var workoutListView = new WorkoutListView();
-
      var appRouter = new AppRouter();
       appRouter.on('route:home', function() {
         console.log('Going to home route...');
         var workoutListView = new WorkoutListView();
+        workoutListView.render();
       });
       appRouter.on('route:edit', function(id) {
 
