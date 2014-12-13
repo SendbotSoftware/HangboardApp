@@ -1,14 +1,12 @@
-<script id="editWorkoutTemplate" type="text/x-handlebars-template">
-    <form class="edit-workout-form">
-        <legend>{{#if workout}}Edit{{#else}}New{{/if}}</legend>
-        <label>First Name</label>
-        <input name="" type="text" value="">
+<form class="edit-workout-form">
+    <legend>{{#if workout}}Edit{{#else}}New{{/if}}</legend>
+    <label>First Name</label>
+    <input name="" type="text" value="">
 
-        <hr />
-        <button type="submit" class="btn">{{#if workout}}Update{{#else}}Create{{/if}}</button>
-        {{#if workout}}
-        <input type="hidden" name="id" value="{{workout.id}}" />
-        <button data-user-id="{{workout.id}}" class="btn btn-danger delete">Delete</button>
-        {{/if}}
-    </form>
-</script>
+    <hr />
+    <button type="submit" class="btn">{{#if workout}}Update{{#else}}Create{{/if}}</button>
+    {{#if workout}}
+    <input type="hidden" name="id" value="{{workout.id}}" />
+    <button data-user-id="{{workout.id}}" class="btn btn-danger delete">Delete</button>
+    {{/if}}
+</form>

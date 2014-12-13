@@ -1,34 +1,32 @@
-<script id="workoutListTemplate" type="text/x-handlebars-template">
-    <a href="#/new" class="btn btn-primary">New</a>
-    <hr />
-    <table class="table striped">
-        <thead>
+<a href="#/new" class="btn btn-primary">New</a>
+<hr />
+<table class="table striped">
+    <thead>
+    <tr>
+        <th>Workout Number</th>
+        <th>Date</th>
+        <th>Reps</th>
+
+        <!--TODO @rbalakrishnan consider making this a dynamic number of th depending on how many grips user has-->
+        <th>Grip 1 weight</th>
+        <th>Completed Sets</th>
+        <th>Grip 2 weight</th>
+        <th>Completed Sets</th>
+        <th>Grip 3 weight</th>
+        <th>Completed Sets</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each workouts}}
         <tr>
-            <th>Workout Number</th>
-            <th>Date</th>
-            <th>Reps</th>
+            <td>{{@index}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.reps}}</td>
 
-            <!--TODO @rbalakrishnan consider making this a dynamic number of th depending on how many grips user has-->
-            <th>Grip 1 weight</th>
-            <th>Completed Sets</th>
-            <th>Grip 2 weight</th>
-            <th>Completed Sets</th>
-            <th>Grip 3 weight</th>
-            <th>Completed Sets</th>
+            <!--TODO @rbalakrishnan Consider making new model for each grip?-->
+            <td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>
         </tr>
-        </thead>
-        <tbody>
-        {{#each workouts}}
-            <tr>
-                <td>{{@index}}</td>
-                <td>{{this.date}}</td>
-                <td>{{this.reps}}</td>
+    {{/each}}
 
-                <!--TODO @rbalakrishnan Consider making new model for each grip?-->
-                <td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>
-            </tr>
-        {{/each}}
-
-        </tbody>
-    </table>
-</script>
+    </tbody>
+</table>
