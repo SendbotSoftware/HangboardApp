@@ -14,16 +14,16 @@ define([
     }
   });
 var initialize = function(){
-     var appRouter = new AppRouter();
-      appRouter.on('route:home', function() {
+    var appRouter = new AppRouter();
+
+    appRouter.on('route:home', function() {
         console.log('Going to home route...');
         var workoutListView = new WorkoutListView();
-        workoutListView.render();
-      });
-      appRouter.on('route:edit', function(id) {
+    });
+    appRouter.on('route:edit', function(id) {
 
-      });
-      Backbone.history.start();
+    });
+    Backbone.history.start();
   };
   return {
     initialize: initialize
