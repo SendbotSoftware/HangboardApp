@@ -22,7 +22,8 @@ define([
             workoutsCollection.fetch({
                 success: function (data) {
                     $.each(data.models, function(index, model) {
-                        workouts.push(model.attributes);
+                        //TODO @rohanbk, @kerwinloukusa This will need to be fixed when we switch to mongo
+                        workouts.push(model);
                     });
 
                     self.$el.html(self.template({workouts: workouts}));
