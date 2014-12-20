@@ -22,19 +22,24 @@ app.use('/', routes);
 if (app.get('env') === 'development') {
     console.log("Attempting to connect to dev environment Mongo instance...");
     // TODO figure out how to use config.js
-    mongoose.connect('mongodb://localhost/climbTraining');
+    mongoose.connect('mongodb://localhost:27017/climb');
 }
 
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
-var hangboardingSchema = new Schema({weight: String});
-var userSchema = new Schema({name : String});
+var workoutSchema = new Schema({
+        date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
+        index: String,
+        type : String,
+        repetitions : String,
+        weight : Number,
+        RPE : Number,
+        grips : [{name : String, sets : Number, resistance : Number, RM : Number}]}
+);
 
-mongoose.model('hangboarding', hangboardingSchema);
-mongoose.model('users', userSchema);
+mongoose.model('workouts', workoutSchema);
 
-app.get('/hangboarding', function(req, res) {
-    console.log(hangboardingSchema);
-    mongoose.model('hangboarding').find(function(err, workouts) {
+app.get('/workouts', function(req, res) {
+    mongoose.model('workouts').find(function(err, workouts) {
         console.log(workouts);
         res.send(workouts);
     });
