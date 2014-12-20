@@ -4,7 +4,7 @@ define([
     'backbone'
 ], function($, handlebars, Backbone){
     var WorkoutsCollection = Backbone.Collection.extend({
-        url: '/workoutsList'
+        url: '/hangboarding'
     });
     return WorkoutsCollection;
 });

@@ -26,19 +26,14 @@ if (app.get('env') === 'development') {
 }
 
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
-var hangboardingSchema = new Schema({
-    date: String,
-    index: String,
-    type: String,
-    repetitions: String,
-    weight: Number,
-    RPE: Number
-});
-mongoose.model('hangboarding', hangboardingSchema);
+var hangboardingSchema = new Schema({weight: String});
 var userSchema = new Schema({name : String});
+
+mongoose.model('hangboarding', hangboardingSchema);
 mongoose.model('users', userSchema);
 
 app.get('/hangboarding', function(req, res) {
+    console.log(hangboardingSchema);
     mongoose.model('hangboarding').find(function(err, workouts) {
         console.log(workouts);
         res.send(workouts);
@@ -46,6 +41,8 @@ app.get('/hangboarding', function(req, res) {
 });
 
 app.get('/users', function(req, res) {
+    console.log(userSchema);
+
     mongoose.model('users').find(function(err, foo) {
         res.send(foo);
     });
