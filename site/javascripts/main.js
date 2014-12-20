@@ -14,3 +14,4 @@ require(['application'],
       Application.initialize();
     }
 );
+

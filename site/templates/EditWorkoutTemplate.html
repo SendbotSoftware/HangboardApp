@@ -1,6 +1,11 @@
 
-<a href="#/" class="btn btn-primary">Back</a>
 <hr />
+
+<form class="edit-workout-form">
+
+
+
+
 <table class="table striped">
     <thead>
     <tr>
@@ -31,24 +36,25 @@
 
     {{#each workouts}}
     <tr>
-        <td>{{this.index}}</td>
-        <td>{{this.date}}</td>
-        <td>{{this.repetitions}}</td>
-        <td>{{this.type}}</td>
-        <td>{{this.RPE}}</td>
-        <td>{{this.weight}}</td>
-
+        <td><input name="type" size="10" type="text" value="{{this.index}}"></td>
+        <td><input name="firstname" type="text" value="{{this.date}}"></td>
+        <td><input name="firstname" type="text" value="{{this.repetitions}}"></td>
+        <td><input name="type" type="text" value="{{this.type}}"></td>
+        <td><input name="firstname" type="text" value="{{this.RPE}}"></td>
+        <td><input name="firstname" type="text" value="{{this.weight}}"></td>
         {{#each this.grips}}
-        <td>{{this.1RM}}</td>
-        <td>{{this.resistance}}</td>
-        <td>{{this.sets}}</td>
+        <td><input name="type" type="text" value="{{this.1RM}}"></td>
+        <td><input name="firstname" type="text" value="{{this.resistance}}"></td>
+        <td><input name="firstname" type="text" value="{{this.sets}}"></td>
         {{/each}}
 
-        <!--TODO @rbalakrishnan Consider making new model for each grip?-->
-        <td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>
     </tr>
     {{/each}}
 
     </tbody>
 </table>
+
+    <button type="submit" class="btn">Submit</button>
+
+</form>
   

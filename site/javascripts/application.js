@@ -12,6 +12,7 @@ define([
   return {
     initialize: initialize
   };
+
 }
 
 

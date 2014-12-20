@@ -22,6 +22,7 @@ var initialize = function(){
     });
     appRouter.on('route:edit', function(id) {
         console.log('show new workout form');
+        if (id)
         var editWorkoutView = new EditWorkoutView(id);
     });
     Backbone.history.start();
