@@ -45,12 +45,4 @@ app.get('/workouts', function(req, res) {
     });
 });
 
-app.get('/users', function(req, res) {
-    console.log(userSchema);
-
-    mongoose.model('users').find(function(err, foo) {
-        res.send(foo);
-    });
-});
-
 module.exports = app;
