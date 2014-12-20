@@ -1,12 +1,54 @@
-<form class="edit-workout-form">
-    <legend>{{#if workout}}Edit{{#else}}New{{/if}}</legend>
-    <label>First Name</label>
-    <input name="" type="text" value="">
 
-    <hr />
-    <button type="submit" class="btn">{{#if workout}}Update{{#else}}Create{{/if}}</button>
-    {{#if workout}}
-    <input type="hidden" name="id" value="{{workout.id}}" />
-    <button data-user-id="{{workout.id}}" class="btn btn-danger delete">Delete</button>
-    {{/if}}
-</form>
+<a href="#/" class="btn btn-primary">Back</a>
+<hr />
+<table class="table striped">
+    <thead>
+    <tr>
+        <th>Workout Number</th>
+        <th>Date</th>
+        <th>Reps</th>
+        <th>Type</th>
+        <th>RPE</th>
+        <th>Bodyweight</th>
+
+
+        <th>Est. 1RM</th>
+        <th>weight</th>
+        <th>Sets</th>
+
+        <th>Est. 1RM</th>
+        <th>weight</th>
+        <th>Sets</th>
+
+
+        <th>Est. 1RM</th>
+        <th>weight</th>
+        <th>Sets</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {{#each workouts}}
+    <tr>
+        <td>{{this.index}}</td>
+        <td>{{this.date}}</td>
+        <td>{{this.repetitions}}</td>
+        <td>{{this.type}}</td>
+        <td>{{this.RPE}}</td>
+        <td>{{this.weight}}</td>
+
+        {{#each this.grips}}
+        <td>{{this.1RM}}</td>
+        <td>{{this.resistance}}</td>
+        <td>{{this.sets}}</td>
+        {{/each}}
+
+        <!--TODO @rbalakrishnan Consider making new model for each grip?-->
+        <td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>
+    </tr>
+    {{/each}}
+
+    </tbody>
+</table>
+  
