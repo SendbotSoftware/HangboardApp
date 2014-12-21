@@ -36,16 +36,16 @@
 
     {{#each workouts}}
     <tr>
-        <td><input name="type" size="10" type="text" value="{{this.index}}"></td>
-        <td><input name="firstname" type="text" value="{{this.date}}"></td>
-        <td><input name="firstname" type="text" value="{{this.repetitions}}"></td>
+        <td><input name="index" size="10" type="text" value="{{this.index}}"></td>
+        <td><input name="date" type="text" value="{{this.date}}"></td>
+        <td><input name="repetitions" type="text" value="{{this.repetitions}}"></td>
         <td><input name="type" type="text" value="{{this.type}}"></td>
-        <td><input name="firstname" type="text" value="{{this.RPE}}"></td>
-        <td><input name="firstname" type="text" value="{{this.weight}}"></td>
+        <td><input name="effortRating" type="text" value="{{this.effortRating}}"></td>
+        <td><input name="bodyWeight" type="text" value="{{this.bodyWeight}}"></td>
         {{#each this.grips}}
-        <td><input name="type" type="text" value="{{this.1RM}}"></td>
-        <td><input name="firstname" type="text" value="{{this.resistance}}"></td>
-        <td><input name="firstname" type="text" value="{{this.sets}}"></td>
+        <td><input name="repMax" type="text" value="{{this.repMax}}"></td>
+        <td><input name="resistance" type="text" value="{{this.resistance}}"></td>
+        <td><input name="sets" type="text" value="{{this.sets}}"></td>
         {{/each}}
 
     </tr>
@@ -54,7 +54,7 @@
     </tbody>
 </table>
 
-    <button type="submit" class="btn">Submit</button>
+    <button type="submit" class="btn edit-workout-form" >Submit</button>
 
 </form>
   

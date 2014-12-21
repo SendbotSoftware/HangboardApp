@@ -5,8 +5,9 @@ define([
     'backbone',
     'text!templates/editWorkoutTemplate.html',
     'collections/WorkoutsCollection',
+    'models/WorkoutModel'
 
-], function($, handlebars, Backbone, EditWorkoutTemplate,WorkoutsCollection,id){
+], function($, handlebars, Backbone, EditWorkoutTemplate,WorkoutsCollection,WorkoutModel){
     var EditWorkoutView = Backbone.View.extend({
         el: '.page',
         template: handlebars.compile(EditWorkoutTemplate),
@@ -16,16 +17,12 @@ define([
                 'click .delete': 'deleteUser'
               },
          saveUser: function (ev) {
-                var userDetails = $(ev.currentTarget).serializeObject();
-
-
-
-
-                var user = new User();
-                user.save(userDetails, {
-                  success: function (user) {
+                var workoutDetails = $(ev.currentTarget).serializeObject();
+                var workoutModel = new WorkoutModel();
+                workoutModel.save(workoutDetails, {
+                  success: function () {
                     router.navigate('', {trigger:true});
-                  }
+
                 });
                 return false;
         },
@@ -51,7 +48,7 @@ define([
                     workoutsCollection.fetch({
                         success: function (data) {
                             $.each(data.models, function(index, model) {
-                                workouts.push(model);
+                                workouts.push(model.attributes);
                             });
                             self.$el.html(self.template({workouts: [workouts[id]]}));
                         }
