@@ -39,7 +39,7 @@ var workoutSchema = new Schema({
 );
 
 mongoose.model('workouts', workoutSchema);
-var mongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
+var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
 
 
 app.get('/workouts', function(req, res) {
@@ -50,7 +50,7 @@ app.get('/workouts', function(req, res) {
 });
 
 app.post('/update', function (req, res) {
-    var dvd = new mongooseWorkoutModel({
+    var mongooseWorkoutModel = new MongooseWorkoutModel({
             date : req.body.date,
             index: req.body.index,
             type : req.body.type,
@@ -62,11 +62,11 @@ app.post('/update', function (req, res) {
             resistance : req.body.resistance,
             repmax : req.body.repMax
     });
-    dvd.save(function(err){
+    mongooseWorkoutModel.save(function(err){
         console.log('finished saving...');
         res.send(true);
     });
-    console.log('end of app.post')
+    console.log('end of app.post');
 });
 
 

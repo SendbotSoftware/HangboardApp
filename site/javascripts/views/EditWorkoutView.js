@@ -17,12 +17,12 @@ define([
                 'click .delete': 'deleteUser'
               },
          saveUser: function (ev) {
-                var workoutDetails = $(ev.currentTarget).serializeObject();
-                var workoutModel = new WorkoutModel();
+                var workoutDetails = $(ev.currentTarget).serializeObject(),
+                    workoutModel = new WorkoutModel(),
+                    self = this;
                 workoutModel.save(workoutDetails, {
                   success: function () {
-                    this.router.navigate('', {trigger:true});
-
+                    self.router.navigate('', {trigger:true});
                     }
                 });
                 console.log('return false');

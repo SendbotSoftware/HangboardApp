@@ -4,7 +4,7 @@ define([
   'handlebars',
   'backbone',
   'views/WorkoutListView',
-  'views/EditWorkoutView',
+  'views/EditWorkoutView'
 ], function($, handlebars, Backbone,WorkoutListView,EditWorkoutView) {
 
   var AppRouter = Backbone.Router.extend({
@@ -17,13 +17,14 @@ define([
 var initialize = function(){
     var appRouter = new AppRouter();
     appRouter.on('route:home', function() {
-        console.log('Going to home route..2');
+        console.log('Going to home route...');
         var workoutListView = new WorkoutListView();
     });
     appRouter.on('route:edit', function(id) {
         console.log('show new workout form');
-        if (id)
-        var editWorkoutView = new EditWorkoutView(id,appRouter);
+        if (id) {
+            var editWorkoutView = new EditWorkoutView(id, appRouter);
+        }
     });
     Backbone.history.start();
   };
