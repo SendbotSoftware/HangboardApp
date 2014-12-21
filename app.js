@@ -26,17 +26,16 @@ if (app.get('env') === 'development') {
 
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
 var workoutSchema = new Schema({
-        date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
-        type : String,
-        repetitions : String,
-        bodyWeight : Number,
-        effortRating : Number,
-        grips : [],
-        sets : [],
-        resistance : [],
-        repmax : []
-        }
-);
+    date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
+    type : String,
+    repetitions : String,
+    bodyWeight : Number,
+    effortRating : Number,
+    grips : [],
+    sets : [],
+    resistance : [],
+    repmax : []
+});
 
 mongoose.model('workouts', workoutSchema);
 var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
@@ -51,22 +50,21 @@ app.get('/workouts', function(req, res) {
 
 app.post('/update', function (req, res) {
     var mongooseWorkoutModel = new MongooseWorkoutModel({
-            date : req.body.date,
-            index: req.body.index,
-            type : req.body.type,
-            repetitions : req.body.repetitions,
-            bodyWeight : req.body.bodyWeight,
-            effortRating : req.body.effortRating,
-            grips : [],
-            sets : req.body.sets,
-            resistance : req.body.resistance,
-            repmax : req.body.repMax
+        date : req.body.date,
+        index: req.body.index,
+        type : req.body.type,
+        repetitions : req.body.repetitions,
+        bodyWeight : req.body.bodyWeight,
+        effortRating : req.body.effortRating,
+        grips : [],
+        sets : req.body.sets,
+        resistance : req.body.resistance,
+        repmax : req.body.repMax
     });
     mongooseWorkoutModel.save(function(err){
         console.log('finished saving...');
         res.send(true);
     });
-    console.log('end of app.post');
 });
 
 

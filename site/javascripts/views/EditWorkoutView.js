@@ -13,29 +13,30 @@ define([
         template: handlebars.compile(EditWorkoutTemplate),
         router: undefined,
         events: {
-                'submit .edit-workout-form': 'saveUser',
-                'click .delete': 'deleteUser'
-              },
-         saveUser: function (ev) {
-                var workoutDetails = $(ev.currentTarget).serializeObject(),
-                    workoutModel = new WorkoutModel(),
-                    self = this;
-                workoutModel.save(workoutDetails, {
-                  success: function () {
+            'submit .edit-workout-form': 'saveUser',
+            'click .delete': 'deleteUser'
+        },
+        saveUser: function (ev) {
+            var workoutDetails = $(ev.currentTarget).serializeObject(),
+                workoutModel = new WorkoutModel(),
+                self = this;
+
+            workoutModel.save(workoutDetails, {
+                success: function () {
                     self.router.navigate('', {trigger:true});
-                    }
-                });
-                console.log('return false');
-                return false;
+                }
+            });
+
+            return false;
         },
         deleteUser: function (ev) {
-                this.user.destroy({
-                  success: function () {
+            this.user.destroy({
+                success: function () {
                     console.log('destroyed');
                     router.navigate('', {trigger:true});
-                  }
-                });
-                return false;
+                }
+            });
+            return false;
         },
 
         initialize: function(id,router) {
@@ -44,35 +45,35 @@ define([
         },
 
         render: function (id) {
-                    var self = this,
-                        workoutsCollection = new WorkoutsCollection(),
-                        workouts = [];
+            var self = this,
+                workoutsCollection = new WorkoutsCollection(),
+                workouts = [];
 
-                    workoutsCollection.fetch({
-                        success: function (data) {
-                            $.each(data.models, function(index, model) {
-                                workouts.push(model.attributes);
-                            });
-                            self.$el.html(self.template({workouts: [workouts[id]]}));
-                        }
+            workoutsCollection.fetch({
+                success: function (data) {
+                    $.each(data.models, function(index, model) {
+                        workouts.push(model.attributes);
                     });
+                    self.$el.html(self.template({workouts: [workouts[id]]}));
                 }
+            });
+        }
     });
-  return EditWorkoutView;
+    return EditWorkoutView;
 });
 
-      $.fn.serializeObject = function() {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
             }
-        });
-        return o;
-      };
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
