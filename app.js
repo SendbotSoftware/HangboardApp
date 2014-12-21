@@ -1,16 +1,16 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express')
+    , path = require('path')
+    , favicon = require('serve-favicon')
+    , logger = require('morgan')
+    , cookieParser = require('cookie-parser')
+    , bodyParser = require('body-parser')
+    , routes = require('./routes/index')
+    , application_root = __dirname
+    , mongoose = require('mongoose')
+    , config = require('./config')
+    , app = express()
+    , Schema = mongoose.Schema;
 
-var routes = require('./routes/index');
-var application_root = __dirname;
-var app = express();
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,36 +19,30 @@ app.use(express.static(path.join(application_root, 'site')));
 
 app.use('/', routes);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
+    console.log("Attempting to connect to dev environment Mongo instance...");
+    // TODO figure out how to use config.js
+    mongoose.connect('mongodb://localhost:27017/climb');
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+// TODO this is a temporary schema just to experiment with Mongoose + mongo
+var workoutSchema = new Schema({
+        date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
+        index: String,
+        type : String,
+        repetitions : String,
+        weight : Number,
+        RPE : Number,
+        grips : [{name : String, sets : Number, resistance : Number, RM : Number}]}
+);
+
+mongoose.model('workouts', workoutSchema);
+
+app.get('/workouts', function(req, res) {
+    mongoose.model('workouts').find(function(err, workouts) {
+        console.log(workouts);
+        res.send(workouts);
     });
 });
-
 
 module.exports = app;

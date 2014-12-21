@@ -1,5 +1,4 @@
-[{"date" : "12/11/2014","index": "0", "type" : "volume", "repetitions" : "4", "weight" : 150, "RPE" : 9,
-  "grips" : [{"name" : "half-crimp", "sets" : 5, "resistance" : 0, "1RM" : 200},{"name" : "pinch", "sets" : 3, "resistance" : 5, "1RM" : 200},{"name" : "Middle-three, 2-pad pocket", "sets" : 4, "resistance" : 10, "1RM" : 200}]}
-  ,{"date" : "12/12/2014","index": "1", "type" : "volume", "repetitions" : "4", "weight" : 150, "RPE" : 9,
-    "grips" : [{"name" : "half-crimp", "sets" : 9, "resistance" : 5, "1RM" : 200},{"name" : "pinch", "sets" : 3, "resistance" : 5, "1RM" : 200},{"name" : "Middle-three, 2-pad pocket", "sets" : 4, "resistance" : 10, "1RM" : 200}]}
-]
+/*
+{date : "12/11/2014",index: "0", type : "volume", repetitions : "4", weight : 150, RPE : 9, grips : [{name : "half-crimp", sets : 5, resistance : 0, RM : 200},{name : "pinch", sets : 3, resistance : 5, RM : 200},{name : "Middle-three, 2-pad pocket", sets : 4, resistance : 10, RM : 200}]},
+  {date : "12/12/2014",index: "1", type : "volume", repetitions : "3", weight : 149, RPE : 9, grips : [{name : "half-crimp", sets : 4, resistance : 0, RM : 200},{name : "pinch", sets : 2, resistance : 5, RM : 200},{name : "Middle-three, 2-pad pocket", sets : 5, resistance : 10, RM : 200}]}
+*/
