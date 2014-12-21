@@ -7,11 +7,11 @@ define([
     'collections/WorkoutsCollection',
     'models/WorkoutModel'
 
-], function($, handlebars, Backbone, EditWorkoutTemplate,WorkoutsCollection,WorkoutModel){
+], function($, handlebars, Backbone ,EditWorkoutTemplate,WorkoutsCollection,WorkoutModel){
     var EditWorkoutView = Backbone.View.extend({
         el: '.page',
         template: handlebars.compile(EditWorkoutTemplate),
-
+        router: undefined,
         events: {
                 'submit .edit-workout-form': 'saveUser',
                 'click .delete': 'deleteUser'
@@ -21,9 +21,11 @@ define([
                 var workoutModel = new WorkoutModel();
                 workoutModel.save(workoutDetails, {
                   success: function () {
-                    router.navigate('', {trigger:true});
+                    this.router.navigate('', {trigger:true});
 
+                    }
                 });
+                console.log('return false');
                 return false;
         },
         deleteUser: function (ev) {
@@ -36,8 +38,9 @@ define([
                 return false;
         },
 
-        initialize: function(id) {
+        initialize: function(id,router) {
             this.render(id);
+            this.router = router;
         },
 
         render: function (id) {

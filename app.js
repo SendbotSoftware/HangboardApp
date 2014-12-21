@@ -27,15 +27,20 @@ if (app.get('env') === 'development') {
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
 var workoutSchema = new Schema({
         date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
-        index: String,
         type : String,
         repetitions : String,
         bodyWeight : Number,
         effortRating : Number,
-        grips : [{name : String, sets : Number, resistance : Number, repMax : Number}]}
+        grips : [],
+        sets : [],
+        resistance : [],
+        repmax : []
+        }
 );
 
 mongoose.model('workouts', workoutSchema);
+var mongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
+
 
 app.get('/workouts', function(req, res) {
     mongoose.model('workouts').find(function(err, workouts) {
@@ -45,9 +50,25 @@ app.get('/workouts', function(req, res) {
 });
 
 app.post('/update', function (req, res) {
-  mongoose.model('workouts').insert('{date : "12/12/2014",index: "1", type : "volume", repetitions : "3", bodyWeight : 149, effortRating : 9, grips : [{name : "half-crimp", sets : 4, resistance : 0, repMax : 200},{name : "pinch", sets : 2, resistance : 5, repMax : 200},{name : "Middle-three, 2-pad pocket", sets : 5, resistance : 10, repMax : 200}]}');
-
+    var dvd = new mongooseWorkoutModel({
+            date : req.body.date,
+            index: req.body.index,
+            type : req.body.type,
+            repetitions : req.body.repetitions,
+            bodyWeight : req.body.bodyWeight,
+            effortRating : req.body.effortRating,
+            grips : [],
+            sets : req.body.sets,
+            resistance : req.body.resistance,
+            repmax : req.body.repMax
+    });
+    dvd.save(function(err){
+        console.log('finished saving...');
+        res.send(true);
+    });
+    console.log('end of app.post')
 });
+
 
 
 module.exports = app;
