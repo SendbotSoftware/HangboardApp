@@ -5,6 +5,7 @@
 
 <table class="table striped">
     <thead>
+    {{#each workouts}}
     <tr>
         <th>Workout Number</th>
         <th>Date</th>
@@ -14,7 +15,7 @@
         <th>Bodyweight</th>
 
 
-        <th>Est. 1RM</th>
+        <th>{{workouts.bodyWeight}} x Est. 1RM</th>
         <th>weight</th>
         <th>Sets</th>
 
@@ -28,6 +29,7 @@
         <th>Sets</th>
         <th></th>
     </tr>
+    {{/each}}
     </thead>
     <tbody>
 
@@ -51,7 +53,6 @@
         <td><input name="repMax" type="text" value="{{this.repMax.[2]}}"></td>
         <td><input name="resistance" type="text" value="{{this.resistance.[2]}}"></td>
         <td><input name="sets" type="text" value="{{this.sets.[2]}}"></td>
-
     </tr>
     {{/each}}
 

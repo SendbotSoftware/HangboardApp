@@ -3,6 +3,7 @@
     <hr />
     <table class="table striped">
         <thead>
+
         <tr>
             <th>Workout Number</th>
             <th>Date</th>
@@ -11,11 +12,17 @@
             <th>RPE</th>
             <th>Bodyweight</th>
 
-            {{#each workouts.0.grips}}
             <th>{{this.name}} Est. 1RM</th>
-            <th>{{this.name}} weight</th>
+            <th>{{this.name}} res</th>
             <th>{{this.name}}  Sets</th>
-            {{/each}}
+
+            <th>{{this.name}} Est. 1RM</th>
+            <th>{{this.name}} res</th>
+            <th>{{this.name}}  Sets</th>
+
+            <th>{{this.name}} Est. 1RM</th>
+            <th>{{this.name}} res</th>
+            <th>{{this.name}}  Sets</th>
 
             <th></th>
         </tr>
@@ -24,21 +31,29 @@
 
         {{#each workouts}}
         <tr>
-            <td>{{this.index}}</td>
+            <td>{{this.sessionNumber}}</td>
             <td>{{this.date}}</td>
             <td>{{this.repetitions}}</td>
             <td>{{this.type}}</td>
             <td>{{this.effortRating}}</td>
             <td>{{this.bodyWeight}}</td>
 
-            {{#each this.grips}}
-            <td>{{this.repMax}}</td>
-            <td>{{this.resistance}}</td>
-            <td>{{this.sets}}</td>
-            {{/each}}
+
+            <td>{{this.repMax.[0]}}</td>
+            <td>{{this.resistance.[0]}}</td>
+            <td>{{this.sets.[0]}}</td>
+
+            <td>{{this.repMax.[1]}}</td>
+            <td>{{this.resistance.[1]}}</td>
+            <td>{{this.sets.[1]}}</td>
+
+            <td>{{this.repMax.[2]}}</td>
+            <td>{{this.resistance.[2]}}</td>
+            <td>{{this.sets.[2]}}</td>
+
 
             <!--TODO @rbalakrishnan Consider making new model for each grip?-->
-            <td><a class="btn" href="#/edit/{{this.index}}">Edit</a></td>
+            <td><a class="btn" href="#/edit/{{this.sessionNumber}}">Edit</a></td>
             <!--<td><a class="btn" href="#/edit/{{this.id}}">Edit</a></td>-->
         </tr>
         {{/each}}

@@ -26,6 +26,7 @@ if (app.get('env') === 'development') {
 
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
 var workoutSchema = new Schema({
+    sessionNumber: String,
     date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
     type : String,
     repetitions : String,
@@ -34,7 +35,7 @@ var workoutSchema = new Schema({
     grips : [],
     sets : [],
     resistance : [],
-    repmax : []
+    repMax : []
 });
 
 mongoose.model('workouts', workoutSchema);
@@ -50,6 +51,7 @@ app.get('/workouts', function(req, res) {
 
 app.post('/update', function (req, res) {
     var mongooseWorkoutModel = new MongooseWorkoutModel({
+        sessionNumber : req.body.sessionNumber,
         date : req.body.date,
         index: req.body.index,
         type : req.body.type,
@@ -59,7 +61,7 @@ app.post('/update', function (req, res) {
         grips : [],
         sets : req.body.sets,
         resistance : req.body.resistance,
-        repmax : req.body.repMax
+        repMax : req.body.repMax
     });
     mongooseWorkoutModel.save(function(err){
         console.log('finished saving...');

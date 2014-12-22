@@ -3,14 +3,14 @@ define([
     'jquery',
     'handlebars',
     'backbone',
-    'text!templates/editWorkoutTemplate.html',
+    'text!templates/NewWorkoutTemplate.html',
     'collections/WorkoutsCollection',
     'models/WorkoutModel'
 
-], function($, handlebars, Backbone ,EditWorkoutTemplate,WorkoutsCollection,WorkoutModel){
+], function($, handlebars, Backbone ,NewWorkoutTemplate,WorkoutsCollection,WorkoutModel){
     var EditWorkoutView = Backbone.View.extend({
         el: '.page',
-        template: handlebars.compile(EditWorkoutTemplate),
+        template: handlebars.compile(NewWorkoutTemplate),
         router: undefined,
         events: {
             'submit .edit-workout-form': 'saveUser',
@@ -29,35 +29,18 @@ define([
 
             return false;
         },
-        deleteUser: function (ev) {
-            this.user.destroy({
-                success: function () {
-                    console.log('destroyed');
-                    router.navigate('', {trigger:true});
-                }
-            });
-            return false;
-        },
 
-        initialize: function(id,router) {
-            this.render(id);
+        initialize: function(router) {
+            this.render();
             this.router = router;
         },
 
-        render: function (id) {
-            var self = this,
-                workoutsCollection = new WorkoutsCollection(),
-                workouts = [];
+        render: function () {
+                    var self = this,
+                        workouts2 = [generateWorkout()];
+                        self.$el.html(self.template({workouts: workouts2}));
 
-            workoutsCollection.fetch({
-                success: function (data) {
-                    $.each(data.models, function(index, model) {
-                        workouts.push(model.attributes);
-                    });
-                    self.$el.html(self.template({workouts: [workouts[id-1]]}));
                 }
-            });
-        }
     });
     return EditWorkoutView;
 });
@@ -76,4 +59,20 @@ $.fn.serializeObject = function() {
         }
     });
     return o;
+};
+
+generateWorkout = function(){
+    workout = {
+        sessionNumber: '1',
+        date : '12/14/204',
+        type : 'volume',
+        repetitions : '2',
+        bodyWeight : '175',
+        effortRating : '9',
+        grips : ['half crimp','pinch','3FP'],
+        sets : ['4', '4', '4'],
+        resistance : ['10', '15', '17'],
+        repMax : ['145', '155' ,'165']
+    };
+    return workout;
 };
