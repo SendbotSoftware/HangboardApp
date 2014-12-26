@@ -1,11 +1,11 @@
 
 <hr />
 
-<form class="edit-workout-form">
+<form class="new-workout-form">
 
 <table class="table striped">
     <thead>
-    {{#each workouts}}
+    {{#each workout}}
     <tr>
         <th>Workout Number</th>
         <th>Date</th>
@@ -33,7 +33,7 @@
     </thead>
     <tbody>
 
-    {{#each workouts}}
+    {{#each workout}}
     <tr>
         <td><input name="sessionNumber" size="10" type="text" value="{{this.sessionNumber}}"></td>
         <td><input name="date" type="text" value="{{this.date}}"></td>
@@ -59,7 +59,7 @@
     </tbody>
 </table>
 
-    <button type="submit" class="btn edit-workout-form" >Submit</button>
+    <button type="submit" class="btn new-workout-form" >Submit</button>
 
 </form>
   

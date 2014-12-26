@@ -12,27 +12,22 @@ define([
     routes: {
       '': 'home',
       'edit/:id' : 'edit',
-      'new': 'new'
+      'new/:userEnteredBodyweight': 'new'
     }
   });
 var initialize = function(){
     var appRouter = new AppRouter();
     appRouter.on('route:home', function() {
-        console.log('Going to home route...');
-        var workoutListView = new WorkoutListView();
+        var workoutListView = new WorkoutListView(appRouter);
     });
     appRouter.on('route:edit', function(id) {
-        console.log('show edit workout form');
         if (id) {
             var editWorkoutView = new EditWorkoutView(id, appRouter);
         }
     });
-        appRouter.on('route:new', function() {
-            console.log('show new workout form');
-
-                var newWorkoutView = new NewWorkoutView(appRouter);
-
-        });
+    appRouter.on('route:new', function(userEnteredBodyweight) {
+       var newWorkoutView = new NewWorkoutView(appRouter,userEnteredBodyweight);
+    });
     Backbone.history.start();
   };
   return {

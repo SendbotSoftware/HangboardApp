@@ -44,7 +44,7 @@ define([
             this.router = router;
         },
 
-        render: function (id) {
+render: function (id) {
             var self = this,
                 workoutsCollection = new WorkoutsCollection(),
                 workouts = [];
@@ -54,10 +54,16 @@ define([
                     $.each(data.models, function(index, model) {
                         workouts.push(model.attributes);
                     });
-                    self.$el.html(self.template({workouts: [workouts[id-1]]}));
+
+                    workouts2 = workoutsCollection.where({sessionNumber: '1'});
+                    workouts3 = workouts2[0];
+                    workouts3 = [workouts3.attributes];
+                    self.$el.html(self.template({workouts3: workouts3}));
                 }
             });
         }
+
+
     });
     return EditWorkoutView;
 });
@@ -76,4 +82,23 @@ $.fn.serializeObject = function() {
         }
     });
     return o;
+};
+
+findWorkout = function(workoutsCollection,id){
+    var self = this,
+                    workoutsCollection = new WorkoutsCollection(),
+                    workouts = [];
+
+                workoutsCollection.fetch({
+                    success: function (data) {
+                        $.each(data.models, function(index, model) {
+                            workouts.push(model.attributes);
+                        });
+
+                        workouts2 = workoutsCollection.where({sessionNumber: id.toString()});
+                        workouts3 = workouts2[0];
+                        return [workouts3.attributes];
+                    }
+                });
+
 };
