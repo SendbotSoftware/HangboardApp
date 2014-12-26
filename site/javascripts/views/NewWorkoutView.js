@@ -195,8 +195,14 @@ function calculate_resistance(reps, rpe, weight, one_rep_max) {
           res_max = res_avg;
         }
         res_avg = (res_min+res_max)/2;
+
+        //if the range is not wide enough, break out instead of crashing instance
+        if (Math.abs(res_avg-res_max)<.001){
+            return 0;
+        }if (Math.abs(res_avg-res_min)<.001){
+            return 0;
+        }
     }
-return 15;
 };
 
 //calculate weight increase from previous sesion.
