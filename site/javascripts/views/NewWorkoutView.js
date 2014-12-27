@@ -23,6 +23,7 @@ define([
 
             workoutModel.save(workoutDetails, {
                 success: function () {
+                    self.undelegateEvents();
                     self.router.navigate('', {trigger:true});
                 }
             });
