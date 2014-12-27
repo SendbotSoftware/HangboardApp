@@ -1,10 +1,11 @@
 
 <hr />
 
-<form class="edit-workout-form">
+<form class="new-workout-form">
 
 <table class="table striped">
     <thead>
+    {{#each workout}}
     <tr>
         <th>Workout Number</th>
         <th>Date</th>
@@ -14,7 +15,7 @@
         <th>Bodyweight</th>
 
 
-        <th>Est. 1RM</th>
+        <th>{{workouts.bodyWeight}} Est. 1RM</th>
         <th>weight</th>
         <th>Sets</th>
 
@@ -28,6 +29,7 @@
         <th>Sets</th>
         <th></th>
     </tr>
+    {{/each}}
     </thead>
     <tbody>
 
@@ -51,14 +53,13 @@
         <td><input name="repMax" type="text" value="{{this.repMax.[2]}}"></td>
         <td><input name="resistance" type="text" value="{{this.resistance.[2]}}"></td>
         <td><input name="sets" type="text" value="{{this.sets.[2]}}"></td>
-
     </tr>
     {{/each}}
 
     </tbody>
 </table>
 
-    <button type="submit" class="btn edit-workout-form" >Submit</button>
+    <button type="submit" class="btn new-workout-form" >Submit</button>
 
 </form>
   

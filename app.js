@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(application_root, 'site')));
-
 app.use('/', routes);
 
 if (app.get('env') === 'development') {
@@ -27,22 +26,46 @@ if (app.get('env') === 'development') {
 
 // TODO this is a temporary schema just to experiment with Mongoose + mongo
 var workoutSchema = new Schema({
-        date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
-        index: String,
-        type : String,
-        repetitions : String,
-        weight : Number,
-        RPE : Number,
-        grips : [{name : String, sets : Number, resistance : Number, RM : Number}]}
-);
+    sessionNumber: String,
+    date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
+    type : String,
+    repetitions : String,
+    bodyWeight : Number,
+    effortRating : Number,
+    grips : [],
+    sets : [],
+    resistance : [],
+    repMax : []
+});
 
-mongoose.model('workouts', workoutSchema);
+var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
+
 
 app.get('/workouts', function(req, res) {
     mongoose.model('workouts').find(function(err, workouts) {
-        console.log(workouts);
         res.send(workouts);
     });
 });
+
+app.post('/update', function (req, res) {
+    var mongooseWorkoutModel = new MongooseWorkoutModel({
+        sessionNumber : req.body.sessionNumber,
+        date : req.body.date,
+        index: req.body.index,
+        type : req.body.type,
+        repetitions : req.body.repetitions,
+        bodyWeight : req.body.bodyWeight,
+        effortRating : req.body.effortRating,
+        grips : [],
+        sets : req.body.sets,
+        resistance : req.body.resistance,
+        repMax : req.body.repMax
+    });
+    mongooseWorkoutModel.save(function(err){
+        res.send(true);
+    });
+});
+
+
 
 module.exports = app;

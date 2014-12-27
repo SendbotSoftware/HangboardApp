@@ -12,4 +12,9 @@ define([
   return {
     initialize: initialize
   };
-});
+
+}
+
+
+
+);
