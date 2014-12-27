@@ -12,13 +12,21 @@ define([
         el: '.page',
         template: handlebars.compile(EditWorkoutTemplate),
         router: undefined,
+        workoutsCollection : undefined,
         events: {
             'submit .edit-workout-form': 'saveUser',
         },
+        _getWorkout : function(workoutsCollection,workoutID){
+
+
+            return workoutsCollection.findWhere({_id: workoutID});
+        },
+
         saveUser: function (ev) {
             var workoutDetails = $(ev.currentTarget).serializeObject(),
-                workoutModel = new WorkoutModel(),
-                self = this;
+            workoutModel = this._getWorkout(this.workoutsCollection,this.id),
+            self = this;
+
 
             workoutModel.save(workoutDetails, {
                 success: function () {
@@ -42,6 +50,8 @@ define([
         initialize: function(id,router) {
             this.render(id);
             this.router = router;
+            this.id = id;
+
         },
 
         render: function (id) {
@@ -49,9 +59,11 @@ define([
             workoutsCollection = new WorkoutsCollection();
             workoutsCollection.fetch({
                 success: function (data) {
-                    self.$el.html(self.template({workout: [workoutsCollection.where({sessionNumber: id})[0].attributes]}));
+                    self.$el.html(self.template({workout: [workoutsCollection.where({_id: id})[0].attributes]}));
+                    self.workoutsCollection = workoutsCollection;
                 }
             });
+
         }
     });
     return EditWorkoutView;
@@ -72,3 +84,5 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
+
+

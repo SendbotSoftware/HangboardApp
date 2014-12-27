@@ -183,7 +183,6 @@ function calculate_resistance(reps, rpe, weight, one_rep_max) {
     // on search time, but changing the diff-criteria does.
     while (true) {
         diff = calculate_1rm(reps, rpe, weight + res_avg) - one_rep_max;
-         console.log(diff);
         if ((Math.abs(diff) < .1)) {
             return res_avg;
         }

@@ -43,13 +43,10 @@ var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
 
 app.get('/workouts', function(req, res) {
     mongoose.model('workouts').find(function(err, workouts) {
-        console.log(workouts);
         res.send(workouts);
     });
 });
 
-
-//if you refresh the page the 1.2.3.4, progression starts over
 app.post('/update', function (req, res) {
     var mongooseWorkoutModel = new MongooseWorkoutModel({
         sessionNumber : req.body.sessionNumber,
@@ -65,7 +62,6 @@ app.post('/update', function (req, res) {
         repMax : req.body.repMax
     });
     mongooseWorkoutModel.save(function(err){
-        console.log('finished saving...');
         res.send(true);
     });
 });
