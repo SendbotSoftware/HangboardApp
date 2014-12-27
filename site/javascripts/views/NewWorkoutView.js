@@ -111,7 +111,7 @@ generateWorkout = function(workoutsCollection,userEnteredBodyweight){
     var lastWorkout = getLastWorkout(workoutsCollection),
     workoutType = 'volume',
     repetitions = calculate_reps(workoutType),
-    effortRating = calculate_rpe(wo_type).toString(),
+    effortRating = calculate_rpe().toString(),
     resistance = [Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[0]+wt_increase()))/100,
                   Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[1]+wt_increase()))/100,
                   Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[2]+wt_increase()))/100],
