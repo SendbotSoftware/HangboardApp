@@ -38,7 +38,6 @@ var workoutSchema = new Schema({
     repMax : []
 });
 
-mongoose.model('workouts', workoutSchema);
 var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
 
 
@@ -49,6 +48,8 @@ app.get('/workouts', function(req, res) {
     });
 });
 
+
+//if you refresh the page the 1.2.3.4, progression starts over
 app.post('/update', function (req, res) {
     var mongooseWorkoutModel = new MongooseWorkoutModel({
         sessionNumber : req.body.sessionNumber,

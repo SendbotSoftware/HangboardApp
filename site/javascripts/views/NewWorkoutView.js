@@ -108,28 +108,28 @@ getLastWorkout = function(workoutsCollection){
 };
 
 generateWorkout = function(workoutsCollection,userEnteredBodyweight){
+
     lastWorkout = getLastWorkout(workoutsCollection);
 
-    var sessionNumberTemp = (+lastWorkout[0].sessionNumber+1).toString(),
-    dateTemp = getDate(),
-    typeTemp = 'volume',
-    repetitionsTemp = calculate_reps("volume"),
-    bodyWeightTemp = userEnteredBodyweight,
+    repetitionsTemp = calculate_reps("volume");
     effortRatingTemp = calculate_rpe().toString(),
-    gripsTemp = ['half crimp','pinch','3FP'],
-    setsTemp = ['4', '4', '4'],
-    resistanceTemp = ['15', '15', '17'],
-    repMaxTemp = ['145', '155' ,'165'];
+    resistanceTemp = [calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[0]+wt_increase()),
+                      calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[1]+wt_increase()),
+                      calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[2]+wt_increase())];
+    repMaxTemp = [calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[0])).toString(),
+                  calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[1])).toString(),
+                  calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[2])).toString()
+                  ];
 
     workout = {
-        sessionNumber: sessionNumberTemp,
-        date : dateTemp,
-        type : typeTemp,
+        sessionNumber: (+lastWorkout[0].sessionNumber+1).toString(),
+        date : getDate(),
+        type : 'volume',
         repetitions : repetitionsTemp,
-        bodyWeight : bodyWeightTemp,
+        bodyWeight : userEnteredBodyweight,
         effortRating : effortRatingTemp,
-        grips : gripsTemp,
-        sets : setsTemp,
+        grips : ['half crimp','pinch','3FP'],
+        sets : ['','',''],
         resistance : resistanceTemp,
         repMax : repMaxTemp
     };
@@ -149,7 +149,7 @@ function calculate_rpe(wo_type, reps) {
 //    } else {
 //        return 9;
 //    }
-return 99;
+return 9;
 }
 
 //calculate workout Reps based upon workout type
@@ -174,29 +174,36 @@ function getDate() {
 //find right resistance for given rpe, reps
 function calculate_resistance(reps, rpe, weight, one_rep_max) {
 
-return 100;
-//    var res_min = -100;
-//    var res_max =  100;
-//    var diff = 0;
-//    var res_avg = 0;
-//
-//    // search pattern chops search interval in half each iteration,
-//    // adjusting search range -50:50 to -100:100 does not have effect
-//    // on search time, but changing the diff-criteria does.
-//    while (true) {
-//        diff = calculate_1rm(reps, rpe, weight + res_avg) - one_rep_max;
-//        if ((Math.abs(diff) < 5)) {
-//            return res_avg;
-//        }
-//        // if diff is negative, res_avg is to small, make min_res equal
-//        // to avg and restart search with new search interval.
-//        if(diff<0){
-//           res_min = res_avg;
-//        }else{
-//          res_max = res_avg;
-//        }
-//        res_avg = (res_min+res_max)/2;
-//    }
+    var res_min = -100;
+    var res_max =  100;
+    var diff = 0;
+    var res_avg = 0;
+
+    // search pattern chops search interval in half each iteration,
+    // adjusting search range -50:50 to -100:100 does not have effect
+    // on search time, but changing the diff-criteria does.
+    while (true) {
+        diff = calculate_1rm(reps, rpe, weight + res_avg) - one_rep_max;
+         console.log(diff);
+        if ((Math.abs(diff) < .1)) {
+            return res_avg;
+        }
+        // if diff is negative, res_avg is to small, make min_res equal
+        // to avg and restart search with new search interval.
+        if(diff<0){
+           res_min = res_avg;
+        }else{
+          res_max = res_avg;
+        }
+        res_avg = (res_min+res_max)/2;
+
+        //if the range is not wide enough, break out instead of crashing instance
+        if (Math.abs(res_avg-res_max)<.001){
+            return 0;
+        }if (Math.abs(res_avg-res_min)<.001){
+            return 0;
+        }
+    }
 };
 
 //calculate weight increase from previous sesion.
@@ -218,49 +225,3 @@ function calculate_1rm(reps, rpe, weight) {
     return weight / (percent / 100);
 };
 
-//generate inital workout for cycle
-function generate_initial() {
-    var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-    var input = sheets[0];
-    var database = sheets[1];
-
-    var weight = input.getRange("D2").getValue();
-    var rpe = 10;
-    var reps = 1;
-
-    //if there is no entry on line 9, generate inital entry.
-    //if there are already entries find last entry, add empty row,
-    // then generate new intial conditions.
-    if (database.getRange("A9").getValue() < 1) {
-        database.getRange("A9").setValue(getDate());
-        database.getRange("B9").setValue("1");
-        database.getRange("C9").setValue("v");
-        database.getRange("D9").setValue("1");
-        database.getRange("E9").setValue(weight);
-        database.getRange("F9").setValue("10");
-        database.getRange("G9").setValue("=($H9+$E9)/(HLOOKUP(D9,C$1:L$5,11-F9+1, FALSE)/100)");
-        database.getRange("H9").setValue(calculate_resistance(reps, rpe, weight, input.getRange("D33").getValue()));
-        database.getRange("J9").setValue("=($E9+$K9)/(HLOOKUP(D9,C$1:L$5,11-F9+1, FALSE)/100)");
-        database.getRange("K9").setValue(calculate_resistance(reps, rpe, weight, input.getRange("F33").getValue()));
-        database.getRange("M9").setValue("=($E9+$N9)/(HLOOKUP(D9,C$1:L$5,11-F9+1, FALSE)/100)");
-        database.getRange("N9").setValue(calculate_resistance(reps, rpe, weight, input.getRange("H33").getValue()));
-    } else {
-        var lRow = database.getLastRow();
-        var lCol = database.getLastColumn();
-        var range = database.getRange(lRow, 1, 1, lCol);
-        database.insertRowsAfter(lRow, 2);
-        range.copyTo(database.getRange(lRow + 2, 1, 1, lCol), {
-            contentsOnly: false
-        });
-        database.getRange("A" + (lRow + 2).toString()).setValue(getDate());
-        database.getRange("B" + (lRow + 2).toString()).setValue("1");
-        database.getRange("C" + (lRow + 2).toString()).setValue("v");
-        database.getRange("D" + (lRow + 2).toString()).setValue(reps);
-        database.getRange("E" + (lRow + 2).toString()).setValue(weight);
-        database.getRange("F" + (lRow + 2).toString()).setValue(rpe);
-        database.getRange("H" + (lRow + 2).toString()).setValue(calculate_resistance(reps, rpe, weight, input.getRange("D33").getValue()));
-        database.getRange("K" + (lRow + 2).toString()).setValue(calculate_resistance(reps, rpe, weight, input.getRange("F33").getValue()));
-        database.getRange("N" + (lRow + 2).toString()).setValue(calculate_resistance(reps, rpe, weight, input.getRange("H33").getValue()));
-    }
-
-}
