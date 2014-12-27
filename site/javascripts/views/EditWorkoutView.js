@@ -14,7 +14,6 @@ define([
         router: undefined,
         events: {
             'submit .edit-workout-form': 'saveUser',
-            'click .delete': 'deleteUser'
         },
         saveUser: function (ev) {
             var workoutDetails = $(ev.currentTarget).serializeObject(),
@@ -23,6 +22,7 @@ define([
 
             workoutModel.save(workoutDetails, {
                 success: function () {
+                     self.undelegateEvents();
                     self.router.navigate('', {trigger:true});
                 }
             });
@@ -44,26 +44,15 @@ define([
             this.router = router;
         },
 
-render: function (id) {
+        render: function (id) {
             var self = this,
-                workoutsCollection = new WorkoutsCollection(),
-                workouts = [];
-
+            workoutsCollection = new WorkoutsCollection();
             workoutsCollection.fetch({
                 success: function (data) {
-                    $.each(data.models, function(index, model) {
-                        workouts.push(model.attributes);
-                    });
-
-                    workouts2 = workoutsCollection.where({sessionNumber: '1'});
-                    workouts3 = workouts2[0];
-                    workouts3 = [workouts3.attributes];
-                    self.$el.html(self.template({workouts3: workouts3}));
+                    self.$el.html(self.template({workout: [workoutsCollection.where({sessionNumber: id})[0].attributes]}));
                 }
             });
         }
-
-
     });
     return EditWorkoutView;
 });
@@ -82,23 +71,4 @@ $.fn.serializeObject = function() {
         }
     });
     return o;
-};
-
-findWorkout = function(workoutsCollection,id){
-    var self = this,
-                    workoutsCollection = new WorkoutsCollection(),
-                    workouts = [];
-
-                workoutsCollection.fetch({
-                    success: function (data) {
-                        $.each(data.models, function(index, model) {
-                            workouts.push(model.attributes);
-                        });
-
-                        workouts2 = workoutsCollection.where({sessionNumber: id.toString()});
-                        workouts3 = workouts2[0];
-                        return [workouts3.attributes];
-                    }
-                });
-
 };

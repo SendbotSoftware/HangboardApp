@@ -14,7 +14,6 @@ define([
         router: undefined,
         events: {
             'submit .new-workout-form': 'saveUser',
-            'click .delete': 'deleteUser'
         },
         saveUser: function (ev) {
             var workoutDetails = $(ev.currentTarget).serializeObject(),
@@ -103,35 +102,35 @@ generateInitialWorkout = function(userEnteredBodyweight){
 };
 
 getLastWorkout = function(workoutsCollection){
-    workouts2 = workoutsCollection.where({sessionNumber: '1'});
-    return [workouts2[0].attributes];
+    return [workoutsCollection.where({sessionNumber: workoutsCollection.length.toString()})[0].attributes];
 };
 
 generateWorkout = function(workoutsCollection,userEnteredBodyweight){
 
-    lastWorkout = getLastWorkout(workoutsCollection);
+    //get lastworkout from collection and build new workout variables
+    var lastWorkout = getLastWorkout(workoutsCollection),
+    workoutType = 'volume',
+    repetitions = calculate_reps(workoutType),
+    effortRating = calculate_rpe(wo_type).toString(),
+    resistance = [Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[0]+wt_increase()))/100,
+                  Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[1]+wt_increase()))/100,
+                  Math.round(100* calculate_resistance(+repetitions, +effortRating, +userEnteredBodyweight, +lastWorkout[0].repMax[2]+wt_increase()))/100],
+    repMax = [Math.round(100* calculate_1rm(+repetitions, +effortRating, +userEnteredBodyweight+(+resistance[0])).toString())/100,
+              Math.round(100* calculate_1rm(+repetitions, +effortRating, +userEnteredBodyweight+(+resistance[1])).toString())/100,
+              Math.round(100* calculate_1rm(+repetitions, +effortRating, +userEnteredBodyweight+(+resistance[2])).toString())/100];
 
-    repetitionsTemp = calculate_reps("volume");
-    effortRatingTemp = calculate_rpe().toString(),
-    resistanceTemp = [calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[0]+wt_increase()),
-                      calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[1]+wt_increase()),
-                      calculate_resistance(+repetitionsTemp, +effortRatingTemp, +userEnteredBodyweight, +lastWorkout[0].repMax[2]+wt_increase())];
-    repMaxTemp = [calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[0])).toString(),
-                  calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[1])).toString(),
-                  calculate_1rm(repetitionsTemp, effortRatingTemp, +userEnteredBodyweight+(+resistanceTemp[2])).toString()
-                  ];
-
+    // build workout object and return to view to be rendered by template
     workout = {
         sessionNumber: (+lastWorkout[0].sessionNumber+1).toString(),
         date : getDate(),
-        type : 'volume',
-        repetitions : repetitionsTemp,
+        type : workoutType,
+        repetitions : repetitions,
         bodyWeight : userEnteredBodyweight,
-        effortRating : effortRatingTemp,
+        effortRating : effortRating,
         grips : ['half crimp','pinch','3FP'],
         sets : ['','',''],
-        resistance : resistanceTemp,
-        repMax : repMaxTemp
+        resistance : resistance,
+        repMax : repMax
     };
     return workout;
 };
@@ -155,7 +154,7 @@ return 9;
 //calculate workout Reps based upon workout type
 function calculate_reps(wo_type) {
 
-     if (wo_type == "volume") {
+     if (wo_type == 'volume') {
           return (Math.floor(Math.random() * 4) + 3);
       } else {
           return (Math.floor(Math.random() * 3) + 1);
