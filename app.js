@@ -48,20 +48,27 @@ app.get('/workouts', function(req, res) {
 });
 
 app.post('/update', function (req, res) {
-    var mongooseWorkoutModel = new MongooseWorkoutModel({
-        sessionNumber : req.body.sessionNumber,
-        date : req.body.date,
-        index: req.body.index,
-        type : req.body.type,
-        repetitions : req.body.repetitions,
-        bodyWeight : req.body.bodyWeight,
-        effortRating : req.body.effortRating,
-        grips : [],
-        sets : req.body.sets,
-        resistance : req.body.resistance,
-        repMax : req.body.repMax
-    });
-    mongooseWorkoutModel.save(function(err){
+    var workout = {
+            _id: req.body._id,
+            sessionNumber : req.body.sessionNumber,
+            date : req.body.date,
+            index: req.body.index,
+            type : req.body.type,
+            repetitions : req.body.repetitions,
+            bodyWeight : req.body.bodyWeight,
+            effortRating : req.body.effortRating,
+            grips : [],
+            sets : req.body.sets,
+            resistance : req.body.resistance,
+            repMax : req.body.repMax
+        },
+        options = {upsert: true};
+
+    if(!workout['_id']) {
+        workout['_id'] = new mongoose.mongo.ObjectID()
+    }
+
+    mongoose.model('workouts').findOneAndUpdate({_id: workout['_id']}, workout, options, function(){
         res.send(true);
     });
 });

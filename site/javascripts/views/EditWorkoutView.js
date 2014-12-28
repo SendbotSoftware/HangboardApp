@@ -13,24 +13,23 @@ define([
         template: handlebars.compile(EditWorkoutTemplate),
         router: undefined,
         workoutsCollection : undefined,
+
         events: {
-            'submit .edit-workout-form': 'saveUser',
+            'submit .edit-workout-form': 'saveUser'
         },
+
         _getWorkout : function(workoutsCollection,workoutID){
-
-
             return workoutsCollection.findWhere({_id: workoutID});
         },
 
         saveUser: function (ev) {
-            var workoutDetails = $(ev.currentTarget).serializeObject(),
-            workoutModel = this._getWorkout(this.workoutsCollection,this.id),
-            self = this;
-
+            var self = this,
+                workoutDetails = $(ev.currentTarget).serializeObject(),
+                workoutModel = new WorkoutModel().set(self._getWorkout(self.workoutsCollection,self.id).toJSON());
 
             workoutModel.save(workoutDetails, {
                 success: function () {
-                     self.undelegateEvents();
+                    self.undelegateEvents();
                     self.router.navigate('', {trigger:true});
                 }
             });
