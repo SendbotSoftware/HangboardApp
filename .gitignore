@@ -6,3 +6,4 @@
 *.sublime-project
 *.sublime-workspace
 .idea/misc.xml
+.idea/*.xml
