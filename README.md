@@ -8,8 +8,7 @@ Hangboarding webapp to help you send all those super hard projects.
 2. Navigate into HangboardApp project
 3. Get latest node_modules (<code>npm update</code> OR <code>sudo npm update</code>)
 
-## Starting up the node server
-There are three ways to go about achieving this:
+## The various ways of starting up a server
 1. <code>DEBUG=HangboardApp ./bin/www</code> [this will fire up the server on <b>port 3000</b>. The server will need to be restarted when any code is changed.]
 2. <code>nodemon ./bin/www</code> [this will fire up the server on <b>port 3000</b> and auto-refresh the server when code changes are made]
 3. <code>node-debug ./bin/www</code> [this will allow node server code to be debugged in the separate browser tab that gets spawned]
