@@ -9,15 +9,15 @@ define([
     var WorkoutListView = Backbone.View.extend({
         el: '.page',
         template: handlebars.compile(WorkoutListTemplate),
-                events: {
-                    'submit .bodyweight-form': 'saveWeight',
-                },
-                saveWeight: function (ev) {
-                    var bodyweight = $(ev.currentTarget).serializeObject(),
-                    self = this;
-                    self.router.navigate('/new/'+bodyweight.weight, {trigger:true});
-                    return false;
-                },
+        events: {
+            'submit .bodyweight-form': 'saveWeight'
+        },
+        saveWeight: function (ev) {
+            var bodyweight = $(ev.currentTarget).serializeObject(),
+            self = this;
+            self.router.navigate('/new/'+bodyweight.weight, {trigger:true});
+            return false;
+        },
 
 
         initialize: function(router) {
