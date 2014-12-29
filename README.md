@@ -7,14 +7,12 @@ Hangboarding webapp to help you send all those super hard projects.
 1. Clone the project to your computer
 2. Navigate into HangboardApp project
 3. Get latest node_modules (<code>npm update</code> OR <code>sudo npm update</code>)
-4. <code>DEBUG=HangboardApp ./bin/www</code> [this will fire up the server on <b>port 3000</b>]
 
-### Optional steps
-The server will <b>need</b> to get terminated and restarted every time changes are made to the code. For this reason, it's
-recommended that <code>nodemon</code> is installed, and used to fire up the server.
-
-1. <code>sudo npm install -g nodemon</code>
-2. <code>nodemon ./bin/www</code>
+## Starting up the node server
+There are three ways to go about achieving this:
+1. <code>DEBUG=HangboardApp ./bin/www</code> [this will fire up the server on <b>port 3000</b>. The server will need to be restarted when any code is changed.]
+2. <code>nodemon ./bin/www</code> [this will fire up the server on <b>port 3000</b> and auto-refresh the server when code changes are made]
+3. <code>node-debug ./bin/www</code> [this will allow node server code to be debugged in the separate browser tab that gets spawned]
 
 ## Setup mongo
 1. Install mongo on your developer machine using standard mongo installation instructions (e.g. <code>brew install mongo</brew>)
