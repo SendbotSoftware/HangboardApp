@@ -8,6 +8,7 @@ var express = require('express')
     , application_root = __dirname
     , mongoose = require('mongoose')
     , config = require('./config')
+    , passport = require('passport')
     , app = express()
     , Schema = mongoose.Schema;
 
@@ -40,6 +41,10 @@ var workoutSchema = new Schema({
 
 var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
 
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/',
+    failureRedirect: '/login' })
+);
 
 app.get('/workouts', function(req, res) {
     mongoose.model('workouts').find(function(err, workouts) {
