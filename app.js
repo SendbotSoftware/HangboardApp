@@ -24,25 +24,22 @@ if (app.get('env') === 'development') {
     mongoose.connect('mongodb://localhost:27017/climb');
 }
 
-// TODO this is a temporary schema just to experiment with Mongoose + mongo
-var workoutSchema = new Schema({
-    sessionNumber: String,
-    date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
-    type : String,
-    repetitions : String,
-    bodyWeight : Number,
-    effortRating : Number,
-    grips : [],
-    sets : [],
-    resistance : [],
-    repMax : []
-});
-
-var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
-
+var mongooseWorkoutModel = mongoose.model('workouts', new Schema({
+        sessionNumber: String,
+        date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
+        type : String,
+        repetitions : String,
+        bodyWeight : Number,
+        effortRating : Number,
+        grips : [],
+        sets : [],
+        resistance : [],
+        repMax : []
+    })
+);
 
 app.get('/workouts', function(req, res) {
-    mongoose.model('workouts').find(function(err, workouts) {
+    mongooseWorkoutModel.find(function(err, workouts) {
         res.send(workouts);
     });
 });
@@ -51,16 +48,16 @@ app.post('/update', function (req, res) {
     var workout = {
             _id: req.body._id,
             sessionNumber : req.body.sessionNumber,
-            date : req.body.date,
+            date: req.body.date,
             index: req.body.index,
-            type : req.body.type,
-            repetitions : req.body.repetitions,
-            bodyWeight : req.body.bodyWeight,
-            effortRating : req.body.effortRating,
-            grips : [],
-            sets : req.body.sets,
-            resistance : req.body.resistance,
-            repMax : req.body.repMax
+            type: req.body.type,
+            repetitions: req.body.repetitions,
+            bodyWeight: req.body.bodyWeight,
+            effortRating: req.body.effortRating,
+            grips: [],
+            sets: req.body.sets,
+            resistance: req.body.resistance,
+            repMax: req.body.repMax
         },
         options = {upsert: true};
 
@@ -68,7 +65,7 @@ app.post('/update', function (req, res) {
         workout['_id'] = new mongoose.mongo.ObjectID()
     }
 
-    mongoose.model('workouts').findOneAndUpdate({_id: workout['_id']}, workout, options, function(){
+    mongooseWorkoutModel.findOneAndUpdate({_id: workout['_id']}, workout, options, function(){
         res.send(true);
     });
 });
