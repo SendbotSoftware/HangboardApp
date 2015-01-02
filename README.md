@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SendbotSoftware/HangboardApp.svg?branch=master)](https://travis-ci.org/SendbotSoftware/HangboardApp)
+
 HangboardApp
 ============
 
