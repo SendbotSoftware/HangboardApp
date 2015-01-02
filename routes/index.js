@@ -1,8 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
-    workoutSchema = require('../schema/workoutSchema'),
-    workoutModel = mongoose.model('workouts', workoutSchema);
+    workoutModel = require('../models/workoutModel');
 
 router.use(function(req, res, next) {
   next();

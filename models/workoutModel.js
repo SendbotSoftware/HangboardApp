@@ -13,4 +13,4 @@ var mongoose = require('mongoose'),
         repMax : []
     });
 
-module.exports = workoutSchema;
+module.exports = mongoose.model('workouts', workoutSchema);
