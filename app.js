@@ -4,20 +4,28 @@ var express = require('express')
     , logger = require('morgan')
     , cookieParser = require('cookie-parser')
     , bodyParser = require('body-parser')
-    , routes = require('./routes/index')
     , application_root = __dirname
     , mongoose = require('mongoose')
     , config = require('./config')
-    , passport = require('passport')
     , app = express()
-    , Schema = mongoose.Schema;
+    , Schema = mongoose.Schema
+    , flash = require('connect-flash')
+    , passport
+    , expressSession
+    , initPassport
+    , routes;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(application_root, 'site')));
-app.use('/', routes);
+
+// view engine setup
+// TODO refactor node views and use Handlebars instead of Jade
+app.set('views', path.join(application_root, 'views'));
+app.set('view engine', 'jade');
+app.use(express.static(path.join(application_root, 'site'), {index:false}));
+
 
 if (app.get('env') === 'development') {
     console.log("Attempting to connect to dev environment Mongo instance...");
@@ -25,8 +33,23 @@ if (app.get('env') === 'development') {
     mongoose.connect('mongodb://localhost:27017/climb');
 }
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/',
-    failureRedirect: '/login' })
-);
+// Configuring Passport
+passport = require('passport');
+expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+app.use(flash());
+
+// Initialize Passport
+initPassport = require('./passport/init');
+initPassport(passport);
+
+routes = require('./routes/index')(passport);
+app.use('/', routes);
 
 module.exports = app;
