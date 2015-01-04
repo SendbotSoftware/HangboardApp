@@ -11,10 +11,7 @@ var mongoose = require('mongoose'),
         sets: [],
         resistance: [],
         repMax: [],
-        performedBy: {
-            user: String,
-            userID: Schema.ObjectId
-        }
+        _userID: Schema.ObjectId
     });
 
 module.exports = mongoose.model('workouts', workoutSchema);

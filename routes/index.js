@@ -51,7 +51,8 @@ module.exports = function(passport){
     });
 
     router.get('/workouts', function(req, res) {
-        workoutModel.find(function(err, workouts) {
+        var userObjectID = req.user._doc._id;
+        workoutModel.find({_userID: userObjectID}, function(err, workouts) {
             res.send(workouts);
         });
     });
@@ -59,17 +60,18 @@ module.exports = function(passport){
     router.post('/update', function (req, res) {
         var workout = {
                 _id: req.body._id,
-                sessionNumber : req.body.sessionNumber,
-                date : req.body.date,
+                sessionNumber: req.body.sessionNumber,
+                date: req.body.date,
                 index: req.body.index,
-                type : req.body.type,
-                repetitions : req.body.repetitions,
-                bodyWeight : req.body.bodyWeight,
-                effortRating : req.body.effortRating,
-                grips : [],
-                sets : req.body.sets,
-                resistance : req.body.resistance,
-                repMax : req.body.repMax
+                type: req.body.type,
+                repetitions: req.body.repetitions,
+                bodyWeight: req.body.bodyWeight,
+                effortRating: req.body.effortRating,
+                grips: [],
+                sets: req.body.sets,
+                resistance: req.body.resistance,
+                repMax: req.body.repMax,
+                _userID: req.user._doc._id
             },
             options = {upsert: true};
 
