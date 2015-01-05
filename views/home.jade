@@ -1,0 +1,18 @@
+extends layout
+block content
+	link(rel='stylesheet', href='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css')
+	script(src="/javascripts/libs/require/require-min.js" data-main="/javascripts/main")
+	div.container
+		#user
+			h1.text-center.login-title Welcome #{user.firstName}. Check your details below:
+				div.signup-wall
+					ul.user-details
+						li Username ---> #{user.username}
+						li Email    ---> #{user.email}
+						li First Name ---> #{user.firstName}
+						li Last Name ---> #{user.lastName}
+				a(href='/signout', class='text-center new-account') Sign Out
+		div#logo
+			h1 Hangboarding App
+		div.page
+		div#footer

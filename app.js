@@ -4,19 +4,28 @@ var express = require('express')
     , logger = require('morgan')
     , cookieParser = require('cookie-parser')
     , bodyParser = require('body-parser')
-    , routes = require('./routes/index')
     , application_root = __dirname
     , mongoose = require('mongoose')
     , config = require('./config')
     , app = express()
-    , Schema = mongoose.Schema;
+    , Schema = mongoose.Schema
+    , flash = require('connect-flash')
+    , passport
+    , expressSession
+    , initPassport
+    , routes;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(application_root, 'site')));
-app.use('/', routes);
+
+// view engine setup
+// TODO refactor node views and use Handlebars instead of Jade
+app.set('views', path.join(application_root, 'views'));
+app.set('view engine', 'jade');
+app.use(express.static(path.join(application_root, 'site'), {index:false}));
+
 
 if (app.get('env') === 'development') {
     console.log("Attempting to connect to dev environment Mongo instance...");
@@ -24,55 +33,23 @@ if (app.get('env') === 'development') {
     mongoose.connect('mongodb://localhost:27017/climb');
 }
 
-// TODO this is a temporary schema just to experiment with Mongoose + mongo
-var workoutSchema = new Schema({
-    sessionNumber: String,
-    date : String, //TODO @rohanbk, @kerwinloukusa We should be using a JS Date Object, not a String
-    type : String,
-    repetitions : String,
-    bodyWeight : Number,
-    effortRating : Number,
-    grips : [],
-    sets : [],
-    resistance : [],
-    repMax : []
-});
+// Configuring Passport
+passport = require('passport');
+expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-var MongooseWorkoutModel = mongoose.model('workouts', workoutSchema);
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+app.use(flash());
 
+// Initialize Passport
+initPassport = require('./passport/init');
+initPassport(passport);
 
-app.get('/workouts', function(req, res) {
-    mongoose.model('workouts').find(function(err, workouts) {
-        res.send(workouts);
-    });
-});
-
-app.post('/update', function (req, res) {
-    var workout = {
-            _id: req.body._id,
-            sessionNumber : req.body.sessionNumber,
-            date : req.body.date,
-            index: req.body.index,
-            type : req.body.type,
-            repetitions : req.body.repetitions,
-            bodyWeight : req.body.bodyWeight,
-            effortRating : req.body.effortRating,
-            grips : [],
-            sets : req.body.sets,
-            resistance : req.body.resistance,
-            repMax : req.body.repMax
-        },
-        options = {upsert: true};
-
-    if(!workout['_id']) {
-        workout['_id'] = new mongoose.mongo.ObjectID()
-    }
-
-    mongoose.model('workouts').findOneAndUpdate({_id: workout['_id']}, workout, options, function(){
-        res.send(true);
-    });
-});
-
-
+routes = require('./routes/index')(passport);
+app.use('/', routes);
 
 module.exports = app;
